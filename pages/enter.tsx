@@ -1,11 +1,13 @@
 import { useState } from "react";
 
+type MethodType = "email" | "phone";
+
 function cls(...classnames: string[]) {
   return classnames.join(" ");
 }
 
 export default function Enter() {
-  const [method, setMethod] = useState<"email" | "phone">("email");
+  const [method, setMethod] = useState<MethodType>("email");
   const onEmailClick = () => setMethod("email");
   const onPhoneClick = () => setMethod("phone");
   return (
@@ -48,7 +50,9 @@ export default function Enter() {
             {method === "email" ? (
               <input
                 type="email"
-                className="w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-orange-500"
+                className="w-full appearance-none rounded-md border border-gray-300
+                            px-3 py-2 placeholder-gray-400 shadow-sm focus:border-orange-500
+                            focus:outline-none focus:ring-orange-500"
                 required
               />
             ) : null}
@@ -59,13 +63,18 @@ export default function Enter() {
                 </span>
                 <input
                   type="number"
-                  className="w-full appearance-none rounded-r-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-orange-500"
+                  className="w-full appearance-none rounded-r-md border border-gray-300
+                             px-3 py-2 placeholder-gray-400 shadow-sm  focus:border-orange-500 focus:outline-none focus:ring-orange-500"
                   required
                 />
               </div>
             ) : null}
           </div>
-          <button className="mt-6 rounded-md border border-transparent bg-orange-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2">
+          <button
+            className="mt-6 rounded-md border border-transparent bg-orange-500 
+                            py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-orange-600
+                              focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+          >
             {method === "email" ? "Get login link" : null}
             {method === "phone" ? "Get one-time password" : null}
           </button>
