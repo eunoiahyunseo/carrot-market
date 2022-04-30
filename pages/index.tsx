@@ -19,7 +19,10 @@ const Home: NextPage = () => {
         <span className="text-3xl font-semibold">Select Item</span>
         <ul>
           {[1, 2, 3, 4, 5].map((i) => (
-            <div key={i} className="my-2 flex justify-between">
+            <div
+              key={i}
+              className="my-2 flex justify-between odd:bg-yellow-200 even:bg-blue-100"
+            >
               <span className="text-gray-500">Grey Chair</span>
               <span className="font-semibold">$19</span>
             </div>
@@ -44,18 +47,17 @@ const Home: NextPage = () => {
           Checkout
         </button>
       </div>
-      <div className="overflow-hidden rounded-3xl bg-white shadow-xl">
+      <div className="group overflow-hidden rounded-3xl bg-white shadow-xl">
         <div className="bg-blue-500 p-6 pb-14">
           <span className="text-2xl text-white">Profile</span>
         </div>
-
         <div className="relative -top-5 rounded-3xl bg-white p-6">
           <div className="relative -top-16 flex items-end justify-between">
             <div className="flex flex-col items-center">
               <span className="text-sm text-gray-500">Orders</span>
               <span className="font-medium">340</span>
             </div>
-            <div className="h-24 w-24 rounded-full bg-red-400"></div>
+            <div className="h-24 w-24 rounded-full bg-zinc-300 transition-colors group-hover:bg-red-300" />
             <div className="flex flex-col items-center">
               <span className="text-sm text-gray-500">Spent</span>
               <span className="font-medium">$2,310</span>
@@ -103,6 +105,40 @@ const Home: NextPage = () => {
           </div>
         </div>
       </div>
+
+      <form className="flex flex-col space-y-2 bg-blue-300 p-5 focus-within:bg-blue-500">
+        <input
+          type="text"
+          required
+          placeholder="Username"
+          // disabled
+          // className="invalid:bg-red-500"
+          // className="placeholder:text-red-500"
+          // className="disabled:opacity-0"
+          className="required:bg-yellow-500 valid:bg-teal-500 "
+        ></input>
+        <input type="password" required placeholder="Password"></input>
+        <input type="submit" value="Login" className="bg-white"></input>
+      </form>
+
+      <form className="flex flex-col space-y-2 p-5">
+        <input
+          type="text"
+          required
+          placeholder="Username"
+          className="peer rounded-lg border border-gray-400 p-1"
+        />
+        <span className="hidden peer-invalid:block peer-invalid:text-red-500">
+          This input is invalid
+        </span>
+        <span className="hidden peer-valid:block peer-valid:text-teal-500">
+          Awesome username
+        </span>
+        <span className="hidden peer-hover:block peer-hover:text-amber-500">
+          Hello
+        </span>
+        <input type="submit" value="Login" className="bg-white"></input>
+      </form>
     </Container>
   );
 };
