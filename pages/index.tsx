@@ -2,20 +2,20 @@ import type { NextPage } from "next";
 import tw from "tailwind-styled-components";
 
 const Container = tw.div`
-  flex
-  flex-col
+  grid
+  gap-10
   space-y-5
   bg-slate-400
   py-20
   px-20
-  flex   
   min-h-screen
+  xl:grid-cols-3
 `;
 
 const Home: NextPage = () => {
   return (
-    <Container>
-      <div className="rounded-2xl bg-white p-6 shadow-2xl sm:bg-red-400 sm:hover:bg-pink-700 md:bg-teal-400 lg:bg-indigo-400 xl:bg-yellow-400 2xl:bg-pink-500">
+    <div className="grid min-h-screen gap-10 space-y-5 bg-slate-400 py-20 px-20 lg:grid-cols-2 xl:grid-cols-3 xl:place-content-center">
+      <div className="flex flex-col justify-between rounded-2xl bg-white p-6 shadow-2xl">
         <span className="text-3xl font-semibold">Select Item</span>
         <ul>
           {[1, 2].map((i) => (
@@ -37,11 +37,10 @@ const Home: NextPage = () => {
           Checkout
         </button>
       </div>
-      <div className="overflow-hidden rounded-3xl bg-white shadow-xl ">
-        <div className="bg-blue-500 p-6 pb-14">
+      <div className="group overflow-hidden rounded-3xl bg-white shadow-xl">
+        <div className="bg-blue-500 p-6 pb-14 xl:pb-40 portrait:bg-indigo-500 landscape:bg-teal-400">
           <span className="text-2xl text-white">Profile</span>
         </div>
-
         <div className="group relative -top-5 rounded-3xl bg-white p-6">
           <div className="relative -top-16 flex items-end justify-between">
             <div className="flex flex-col items-center">
@@ -60,7 +59,7 @@ const Home: NextPage = () => {
           </div>
         </div>
       </div>
-      <div className="rounded-2xl bg-white p-10 shadow-2xl">
+      <div className="rounded-2xl bg-white p-10 shadow-2xl lg:col-span-2 xl:col-span-1">
         <div className="mb-5 flex items-center justify-between">
           <span>⬅</span>
           <div className="space-x-3">
@@ -96,7 +95,7 @@ const Home: NextPage = () => {
           </div>
         </div>
       </div>
-    </Container>
+    </div>
   );
 };
 
