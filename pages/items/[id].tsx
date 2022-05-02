@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import Layout from "../../components/layout";
+import Button from "../../components/button";
 
 const ItemDetail: NextPage = () => {
   return (
@@ -7,7 +8,7 @@ const ItemDetail: NextPage = () => {
       <div className="px-4 py-3">
         <div className="mb-8">
           <div className="h-96 bg-slate-300" />
-          <div className="space-x-300 mt-1 flex items-center border-t border-b py-3">
+          <div className="mt-1 flex items-center space-x-3 border-t border-b py-3">
             <div className="h-12 w-12 rounded-full bg-slate-300" />
             <div>
               <p className="text-sm font-medium text-gray-700">Steve Jebs</p>
@@ -30,13 +31,7 @@ const ItemDetail: NextPage = () => {
               to get shot. You understand?
             </p>
             <div className="flex items-center justify-between space-x-2">
-              <button
-                className="flex-1 rounded-md bg-orange-500 py-3 font-medium
-              text-white shadow-md hover:bg-orange-600 focus:outline-none focus:ring-2
-                        focus:ring-orange-500 focus:ring-offset-2"
-              >
-                Talk to seller
-              </button>
+              <Button text="Talk to seller" large />
               <button className="flex items-center justify-center rounded-md p-3 text-gray-400 hover:bg-gray-100 hover:text-gray-500">
                 <svg
                   className="h-6 w-6 "
