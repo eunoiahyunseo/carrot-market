@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { cls } from "../libs/utils";
+import { cls } from "../libs/client/utils";
 
 interface LayoutProps {
   title?: string;
@@ -11,9 +11,17 @@ interface LayoutProps {
   children: React.ReactNode;
 }
 
-const Layout = ({ title, canGoBack, hasTabBar, children }: LayoutProps) => {
+const Layout = ({
+  title,
+  canGoBack,
+  hasTabBar,
+  children,
+}: LayoutProps) => {
   const router = useRouter();
-  const onClick = useCallback(() => router.back(), [router]);
+  const onClick = useCallback(
+    () => router.back(),
+    [router]
+  );
   return (
     <div>
       <div
@@ -42,7 +50,14 @@ const Layout = ({ title, canGoBack, hasTabBar, children }: LayoutProps) => {
         ) : null}
         {title ? <span>{title}</span> : null}
       </div>
-      <div className={cls("pt-16", hasTabBar ? "pb-[6rem]" : "")}>{children}</div>
+      <div
+        className={cls(
+          "pt-16",
+          hasTabBar ? "pb-[6rem]" : ""
+        )}
+      >
+        {children}
+      </div>
       {hasTabBar ? (
         <nav className="fixed bottom-0 left-0 flex w-full items-center justify-around border-2 border-t bg-white pb-4 pt-4 text-xs text-gray-800">
           <Link href="/">

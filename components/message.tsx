@@ -1,4 +1,4 @@
-import { cls } from "../libs/utils";
+import { cls } from "../libs/client/utils";
 
 interface MessageProps {
   message: string;
@@ -6,12 +6,18 @@ interface MessageProps {
   avatarUrl?: string;
 }
 
-const Message = ({ avatarUrl, message, reversed }: MessageProps) => {
+const Message = ({
+  avatarUrl,
+  message,
+  reversed,
+}: MessageProps) => {
   return (
     <div
       className={cls(
         "flex items-start space-x-2",
-        reversed ? "flex-row-reverse space-x-reverse" : ""
+        reversed
+          ? "flex-row-reverse space-x-reverse"
+          : ""
       )}
     >
       <div className="aspect-square h-8 rounded-full bg-slate-400" />

@@ -1,10 +1,14 @@
-import { cls } from "../libs/utils";
+import { cls } from "../libs/client/utils";
 interface ButtonProps {
   large?: boolean;
   text: string;
   [key: string]: any;
 }
-const Button = ({ text, large, rest }: ButtonProps) => {
+const Button = ({
+  text,
+  large,
+  rest,
+}: ButtonProps) => {
   return (
     <button
       {...rest}

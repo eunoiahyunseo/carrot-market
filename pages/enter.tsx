@@ -1,8 +1,10 @@
+import type { NextPage } from "next";
 import { useState } from "react";
 import Button from "../components/button";
 import Input from "../components/Input";
-import { cls } from "../libs/utils";
+import { cls } from "../libs/client/utils";
 import { useForm } from "react-hook-form";
+import useMutation from "../libs/client/useMutation";
 
 type MethodType = "email" | "phone";
 
@@ -11,8 +13,11 @@ interface EnterForm {
   phone?: string;
 }
 
-export default function Enter() {
-  const { register, watch, handleSubmit, reset } =
+const Enter: NextPage = () => {
+  const [enter, { loading, data, error }] =
+    useMutation("/api/users/enter");
+  const [submitting, setSubmitting] = useState(false);
+  const { register, handleSubmit, reset } =
     useForm<EnterForm>();
   const [method, setMethod] =
     useState<MethodType>("email");
@@ -24,8 +29,8 @@ export default function Enter() {
     reset();
     setMethod("phone");
   };
-  const onValid = (data: EnterForm) => {
-    console.log(data);
+  const onValid = (validForm: EnterForm) => {
+    enter(validForm);
   };
   return (
     <div className="mt-16 px-4">
@@ -92,7 +97,13 @@ export default function Enter() {
             <Button text={"Get login link"} />
           ) : null}
           {method === "phone" ? (
-            <Button text={"Get one-time password"} />
+            <Button
+              text={
+                submitting
+                  ? "Loading"
+                  : "Get one-time password"
+              }
+            />
           ) : null}
         </form>
         <div className="mt-8">
@@ -134,4 +145,6 @@ export default function Enter() {
       </div>
     </div>
   );
-}
+};
+
+export default Enter;
