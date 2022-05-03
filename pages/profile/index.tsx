@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import Layout from "../../components/layout";
+import Layout from "@components/layout";
 import Link from "next/link";
 
 const Profile: NextPage = () => {
@@ -9,9 +9,13 @@ const Profile: NextPage = () => {
         <div className="flex items-center space-x-3">
           <div className="h-16 w-16 rounded-full bg-slate-500" />
           <div className="flex flex-col">
-            <span className="font-medium text-gray-800">Steve Jebs</span>
+            <span className="font-medium text-gray-800">
+              Steve Jebs
+            </span>
             <Link href="/profile/edit">
-              <a className="font-sm text-gray-700">Edit profile &rarr;</a>
+              <a className="font-sm text-gray-700">
+                Edit profile &rarr;
+              </a>
             </Link>
           </div>
         </div>
@@ -92,7 +96,9 @@ const Profile: NextPage = () => {
           <div className="flex items-center space-x-4">
             <div className="h-12 w-12 rounded-full bg-slate-400" />
             <div>
-              <h4 className="text-sm font-bold text-gray-800">니꼬</h4>
+              <h4 className="text-sm font-bold text-gray-800">
+                니꼬
+              </h4>
               <div className="flex items-center">
                 <svg
                   className="h-5 w-5 text-yellow-400"
@@ -144,12 +150,16 @@ const Profile: NextPage = () => {
           </div>
           <div className="mt-4 text-sm text-gray-600">
             <p>
-              Normally, both your asses would be dead as fucking fried chicken, but
-              you happen to pull this shit while I&apos;m in a transitional period so
-              I don&apos;t wanna kill you, I wanna help you. But I can&apos;t give
-              you this case, it don&apos;t belong to me. Besides, I&apos;ve already
-              been through too much shit this morning over this case to hand it over
-              to your dumb ass.
+              Normally, both your asses would be dead
+              as fucking fried chicken, but you happen
+              to pull this shit while I&apos;m in a
+              transitional period so I don&apos;t wanna
+              kill you, I wanna help you. But I
+              can&apos;t give you this case, it
+              don&apos;t belong to me. Besides,
+              I&apos;ve already been through too much
+              shit this morning over this case to hand
+              it over to your dumb ass.
             </p>
           </div>
         </div>

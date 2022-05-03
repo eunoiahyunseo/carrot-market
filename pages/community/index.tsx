@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Link from "next/link";
-import Layout from "../../components/layout";
-import FloatingButton from "../../components/FloatingButton";
+import Layout from "@components/layout";
+import FloatingButton from "@components/FloatingButton";
 
 const Community: NextPage = () => {
   return (
@@ -14,8 +14,10 @@ const Community: NextPage = () => {
                 동네질문
               </span>
               <div className="mt-2 text-gray-700">
-                <span className="font-medium text-orange-500">Q.</span> What is the
-                best mandu restaurant?
+                <span className="font-medium text-orange-500">
+                  Q.
+                </span>{" "}
+                What is the best mandu restaurant?
               </div>
               <div className="mt-5 flex w-full items-center justify-between text-xs font-medium text-gray-500">
                 <span>현서</span>

@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Link from "next/link";
-import Layout from "../../components/layout";
-import FloatingButton from "../../components/FloatingButton";
+import Layout from "@components/layout";
+import FloatingButton from "@components/FloatingButton";
 
 const Live: NextPage = () => {
   return (

@@ -1,10 +1,12 @@
-import type { NextPage } from "next";
 import { useState } from "react";
-import Button from "../components/button";
-import Input from "../components/Input";
-import { cls } from "../libs/client/utils";
+import type { NextPage } from "next";
+
+import useMutation from "@libs/client/useMutation";
+import { cls } from "@libs/client/utils";
+import Button from "@components/button";
+import Input from "@components/Input";
+
 import { useForm } from "react-hook-form";
-import useMutation from "../libs/client/useMutation";
 
 type MethodType = "email" | "phone";
 

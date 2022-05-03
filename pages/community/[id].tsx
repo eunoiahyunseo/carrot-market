@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
-import Layout from "../../components/layout";
-import TextArea from "../../components/textArea";
-import Button from "../../components/button";
+import Layout from "@components/layout";
+import TextArea from "@components/textArea";
+import Button from "@components/button";
 
 const CommunityPostDetail: NextPage = () => {
   return (
@@ -13,7 +13,9 @@ const CommunityPostDetail: NextPage = () => {
         <div className="mb-3 flex  items-center space-x-3 border-b py-2 px-3">
           <div className="h-10 w-10 rounded-full bg-slate-300" />
           <div>
-            <p className="text-sm font-medium text-gray-700">Steve Jebs</p>
+            <p className="text-sm font-medium text-gray-700">
+              Steve Jebs
+            </p>
             <p className="cursor-pointer text-xs font-medium text-gray-500">
               View profile &rarr;
             </p>
@@ -22,8 +24,10 @@ const CommunityPostDetail: NextPage = () => {
 
         <div>
           <div className="mt-2 px-4 text-gray-700">
-            <span className="font-medium text-orange-500">Q.</span> What is the best
-            mandu restaurant?
+            <span className="font-medium text-orange-500">
+              Q.
+            </span>{" "}
+            What is the best mandu restaurant?
           </div>
           <div className="mt-3 flex w-full space-x-5 border-t border-b-[2px] py-2.5 px-4 text-gray-700">
             <div className="flex items-center space-x-2 text-sm">
@@ -65,7 +69,10 @@ const CommunityPostDetail: NextPage = () => {
 
         <div className="my-5 space-y-5 px-4">
           {[...Array(3)].map((_, i) => (
-            <div key={i} className="flex items-start space-x-3">
+            <div
+              key={i}
+              className="flex items-start space-x-3"
+            >
               <div className="h-8 w-8 rounded-full bg-slate-200" />
               <div className="">
                 <span className="block text-sm font-medium text-gray-700">
@@ -75,14 +82,18 @@ const CommunityPostDetail: NextPage = () => {
                   2시간 전
                 </span>
                 <p className="mt-[1.5px] text-gray-700">
-                  The best mandu restaurant is the one next to my house.
+                  The best mandu restaurant is the one
+                  next to my house.
                 </p>
               </div>
             </div>
           ))}
         </div>
         <div className="px-4">
-          <TextArea placeholder="Answer this question!" name="description" />
+          <TextArea
+            placeholder="Answer this question!"
+            name="description"
+          />
           <Button text="Reply" />
         </div>
       </div>

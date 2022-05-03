@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
-import Layout from "../../components/layout";
-import Button from "../../components/button";
-import Input from "../../components/Input";
+import Layout from "@components/layout";
+import Button from "@components/button";
+import Input from "@components/Input";
 
 const EditProfile: NextPage = () => {
   return (
@@ -22,7 +22,12 @@ const EditProfile: NextPage = () => {
             ></input>
           </label>
         </div>
-        <Input required name="email" label="Email Address" type="email" />
+        <Input
+          required
+          name="email"
+          label="Email Address"
+          type="email"
+        />
         <Input
           required
           name="phone"

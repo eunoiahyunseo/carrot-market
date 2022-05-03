@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
-import Layout from "../../components/layout";
-import Message from "../../components/message";
+import Layout from "@components/layout";
+import Message from "@components/message";
 
 const StreamDetail: NextPage = () => {
   return (
@@ -12,10 +12,16 @@ const StreamDetail: NextPage = () => {
         </h3>
         <div className=" h-[50vh] space-y-4 overflow-y-scroll py-10 px-4 pb-16">
           <Message message="Hi how much are you selling them for?" />
-          <Message message="I want ￦20,000" reversed />
+          <Message
+            message="I want ￦20,000"
+            reversed
+          />
           <Message message="미쳤어" />
           <Message message="Hi how much are you selling them for?" />
-          <Message message="I want ￦20,000" reversed />
+          <Message
+            message="I want ￦20,000"
+            reversed
+          />
           <Message message="미쳤어" />
         </div>
         <div className="fixed inset-x-0 bottom-3 m-0 mx-auto w-full max-w-md">
