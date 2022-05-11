@@ -16,13 +16,12 @@ interface EnterForm {
 }
 
 const Enter: NextPage = () => {
-  const [enter, { loading, data, error }] =
-    useMutation("/api/users/enter");
+  const [enter, { loading, data, error }] = useMutation(
+    "/api/users/enter"
+  );
   const [submitting, setSubmitting] = useState(false);
-  const { register, handleSubmit, reset } =
-    useForm<EnterForm>();
-  const [method, setMethod] =
-    useState<MethodType>("email");
+  const { register, handleSubmit, reset } = useForm<EnterForm>();
+  const [method, setMethod] = useState<MethodType>("email");
   const onEmailClick = () => {
     reset();
     setMethod("email");
@@ -96,14 +95,14 @@ const Enter: NextPage = () => {
             />
           ) : null}
           {method === "email" ? (
-            <Button text={"Get login link"} />
+            <Button
+              text={loading ? "Loading" : "Get login link"}
+            />
           ) : null}
           {method === "phone" ? (
             <Button
               text={
-                submitting
-                  ? "Loading"
-                  : "Get one-time password"
+                loading ? "Loading" : "Get one-time password"
               }
             />
           ) : null}

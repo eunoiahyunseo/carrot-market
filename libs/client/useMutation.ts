@@ -26,15 +26,9 @@ export default function useMutation(
       },
       body: JSON.stringify(data),
     })
-      .then((response) =>
-        response.json().catch(() => {})
-      )
-      .then((data) =>
-        setState((prev) => ({ ...prev, data }))
-      )
-      .catch((error) =>
-        setState((prev) => ({ ...prev, error }))
-      )
+      .then((response) => response.json().catch(() => {}))
+      .then((data) => setState((prev) => ({ ...prev, data })))
+      .catch((error) => setState((prev) => ({ ...prev, error })))
       .finally(() =>
         setState((prev) => ({
           ...prev,
