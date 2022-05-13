@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { NextPage } from "next";
 
 import useMutation from "@libs/client/useMutation";
@@ -8,6 +8,7 @@ import Input from "@components/Input";
 
 import { useForm } from "react-hook-form";
 import { ConversationList } from "twilio/lib/rest/conversations/v1/service/conversation";
+import { useRouter } from "next/router";
 
 type MethodType = "email" | "phone";
 interface EnterForm {
@@ -62,6 +63,13 @@ const Enter: NextPage = () => {
     if (tokenLoading) return;
     confirmToken(validForm);
   };
+
+  const router = useRouter();
+  useEffect(() => {
+    if (tokenData?.ok) {
+      router.push("/");
+    }
+  }, [tokenData, router]);
 
   return (
     <div className="mt-16 px-4">

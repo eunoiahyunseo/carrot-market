@@ -18,7 +18,7 @@ type HandlerType = {
 };
 
 const withHandler: HandlerType = (method, handler) => {
-  return async function (req, res) {
+  return async function (req, res): Promise<any> {
     if (req.method !== method) {
       res.status(405).end();
     }
