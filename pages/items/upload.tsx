@@ -27,7 +27,7 @@ const Upload: NextPage = () => {
             <input className="hidden" type="file" />
           </label>
         </div>
-        <Input required label="Name" name="name" />
+        <Input requied label="Name" name="name" />
         <Input
           required
           label="Price"
@@ -35,10 +35,7 @@ const Upload: NextPage = () => {
           placeholder="0.00"
           kind="price"
         />
-        <TextArea
-          name="description"
-          label="Description"
-        />
+        <TextArea name="description" label="Description" />
         <Button text="Upload item" />
       </div>
     </Layout>
