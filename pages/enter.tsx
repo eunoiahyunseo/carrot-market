@@ -1,3 +1,4 @@
+import mail from "@sendgrid/mail";
 import { useState } from "react";
 import type { NextPage } from "next";
 

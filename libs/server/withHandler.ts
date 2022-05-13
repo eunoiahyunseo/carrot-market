@@ -5,9 +5,16 @@ import type {
 } from "next/types";
 
 type MethodType = "GET" | "POST" | "DELETE";
+export interface ResponseType {
+  ok: boolean;
+  [key: string]: any;
+}
 
 type HandlerType = {
-  (method: MethodType, handler: NextApiHandler): NextApiHandler;
+  (
+    method: MethodType,
+    handler: NextApiHandler<ResponseType>
+  ): NextApiHandler;
 };
 
 const withHandler: HandlerType = (method, handler) => {
