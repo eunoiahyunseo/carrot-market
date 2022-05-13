@@ -7,6 +7,7 @@ import type { NextApiRequest, NextApiResponse, NextApiHandler } from "next";
 
 import twilio from "twilio";
 import mail from "@sendgrid/mail";
+import { withApiSession } from "@libs/server/withSession";
 
 mail.setApiKey(process.env.SENDGRID_API_KEY!);
 
@@ -70,4 +71,10 @@ const handler: NextApiHandler = async (
   res.status(200).json({ ok: true });
 };
 
-export default withHandler("POST", handler);
+export default withApiSession(
+  withHandler({
+    method: "POST",
+    handler,
+    isPrivate: false,
+  })
+);

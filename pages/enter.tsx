@@ -22,7 +22,6 @@ interface TokenForm {
 interface EnterMutationResult {
   ok: boolean;
 }
-
 interface MutationResult {
   ok: boolean;
 }

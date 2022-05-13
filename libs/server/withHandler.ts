@@ -9,18 +9,29 @@ export interface ResponseType {
   ok: boolean;
   [key: string]: any;
 }
+interface ConfigType {
+  method: MethodType;
+  handler: NextApiHandler<ResponseType>;
+  isPrivate?: boolean;
+}
 
 type HandlerType = {
-  (
-    method: MethodType,
-    handler: NextApiHandler<ResponseType>
-  ): NextApiHandler;
+  (config: ConfigType): NextApiHandler;
 };
 
-const withHandler: HandlerType = (method, handler) => {
+const withHandler: HandlerType = ({
+  method,
+  handler,
+  isPrivate = true,
+}) => {
   return async function (req, res): Promise<any> {
     if (req.method !== method) {
       res.status(405).end();
+    }
+    if (isPrivate && !req.session.user) {
+      return res
+        .status(401)
+        .json({ ok: false, error: "Plz log in." });
     }
     try {
       await handler(req, res);
