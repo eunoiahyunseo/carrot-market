@@ -1,10 +1,18 @@
+import type { UseFormRegisterReturn } from "react-hook-form";
+
 interface TextAreaProps {
   name?: string;
   label?: string;
+  register: UseFormRegisterReturn;
   [key: string]: any;
 }
 
-const TextArea = ({ name, label, ...rest }: TextAreaProps) => {
+const TextArea = ({
+  name,
+  label,
+  register,
+  ...rest
+}: TextAreaProps) => {
   return (
     <div>
       {label ? (
@@ -16,6 +24,7 @@ const TextArea = ({ name, label, ...rest }: TextAreaProps) => {
         </label>
       ) : null}
       <textarea
+        {...register}
         id={name}
         {...rest}
         rows={4}
