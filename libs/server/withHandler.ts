@@ -4,13 +4,15 @@ import type {
   NextApiHandler,
 } from "next/types";
 
-type MethodType = "GET" | "POST" | "DELETE";
+type method = "GET" | "POST" | "DELETE";
+
+type MethodType = method[];
 export interface ResponseType {
   ok: boolean;
   [key: string]: any;
 }
 interface ConfigType {
-  method: MethodType;
+  methods: MethodType;
   handler: NextApiHandler<ResponseType>;
   isPrivate?: boolean;
 }
@@ -20,12 +22,12 @@ type HandlerType = {
 };
 
 const withHandler: HandlerType = ({
-  method,
+  methods,
   handler,
   isPrivate = true,
 }) => {
   return async function (req, res): Promise<any> {
-    if (req.method !== method) {
+    if (req.method && !methods.includes(req.method as method)) {
       res.status(405).end();
     }
     if (isPrivate && !req.session.user) {

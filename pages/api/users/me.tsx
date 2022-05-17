@@ -23,7 +23,7 @@ const handler: NextApiHandler = async (
 
 export default withApiSession(
   withHandler({
-    method: "GET",
+    methods: ["GET"],
     handler,
   })
 );

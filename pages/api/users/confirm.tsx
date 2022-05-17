@@ -40,7 +40,7 @@ const handler: NextApiHandler = async (
 
 export default withApiSession(
   withHandler({
-    method: "POST",
+    methods: ["POST"],
     handler,
     isPrivate: false,
   })
