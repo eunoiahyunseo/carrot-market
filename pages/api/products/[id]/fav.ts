@@ -5,53 +5,55 @@ import withHandler, {
 // prettier-ignore
 import type { NextApiRequest, NextApiResponse, NextApiHandler } from "next";
 import { withApiSession } from "@libs/server/withSession";
+import { User } from "@prisma/client";
 
 const handler: NextApiHandler = async (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
-  if (req.method === "GET") {
-    const products = await client.product.findMany({
-      include: {
-        favs: true,
+  const {
+    query: { id },
+    session: { user },
+  } = req;
+
+  const alreadyEx = await client.fav.findFirst({
+    where: {
+      productId: +id.toString(),
+      userId: user?.id,
+    },
+  });
+
+  if (alreadyEx) {
+    // delete
+    await client.fav.delete({
+      where: {
+        id: alreadyEx.id,
       },
     });
-    console.log(products);
-    res.json({
-      ok: true,
-      products,
-    });
-  }
-
-  if (req.method === "POST") {
-    const {
-      body: { name, price, description },
-      session: { user },
-    } = req;
-    const product = await client.product.create({
+  } else {
+    // create
+    await client.fav.create({
       data: {
-        name,
-        price: +price,
-        description,
-        image: "xx",
         user: {
           connect: {
             id: user?.id,
           },
         },
+        product: {
+          connect: {
+            id: +id.toString(),
+          },
+        },
       },
     });
-
-    res.json({
-      ok: true,
-      product,
-    });
   }
+
+  res.json({ ok: true });
 };
 
 export default withApiSession(
   withHandler({
-    methods: ["GET", "POST"],
+    methods: ["POST"],
     handler,
   })
 );

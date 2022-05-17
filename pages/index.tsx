@@ -5,17 +5,19 @@ import FloatingButton from "@components/FloatingButton";
 import useUser from "@libs/client/useUser";
 import Head from "next/head";
 import useSWR from "swr";
-import { Product } from "@prisma/client";
+import { Fav, Product } from "@prisma/client";
 
+interface ProductWithFav extends Product {
+  favs: Fav[];
+}
 interface ProductsResponse {
   ok: boolean;
-  products: Product[];
+  products: ProductWithFav[];
 }
 
 const Home: NextPage = () => {
   const { user, isLoading } = useUser();
   const { data } = useSWR<ProductsResponse>("/api/products");
-  console.log(data);
 
   return (
     <Layout title="홈" hasTabBar>
@@ -23,14 +25,14 @@ const Home: NextPage = () => {
         <title>Home</title>
       </Head>
       <div className="p flex flex-col space-y-5 py-2">
-        {data?.products?.map(({ id, name, price }, i) => (
+        {data?.products?.map(({ id, name, price, favs }, i) => (
           <Item
             key={id}
             id={id}
             title={name}
             price={price}
             comments={1}
-            hearts={1}
+            hearts={favs.length}
           />
         ))}
 

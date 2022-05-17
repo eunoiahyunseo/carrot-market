@@ -11,7 +11,10 @@ const handler: NextApiHandler = async (
   res: NextApiResponse
 ) => {
   // id -> string / string[] cause of dynamic routing
-  const { id } = req.query;
+  const {
+    query: { id },
+    session: { user },
+  } = req;
 
   const product = await client.product.findUnique({
     where: { id: +id.toString() },
@@ -42,8 +45,16 @@ const handler: NextApiHandler = async (
     },
   });
 
-  console.log(relatedProducts);
-  res.json({ ok: true, product, relatedProducts });
+  const isLiked = Boolean(
+    await client.fav.findFirst({
+      // fav의 productId중에 product.id가 있는지 없는지 체크
+      where: {
+        productId: product?.id,
+        userId: user?.id,
+      },
+    })
+  );
+  res.json({ ok: true, product, isLiked, relatedProducts });
 };
 
 export default withApiSession(
