@@ -6,17 +6,18 @@ import withHandler, {
 import type { NextApiRequest, NextApiResponse, NextApiHandler } from "next";
 import { withApiSession } from "@libs/server/withSession";
 
-const handler: NextApiHandler = async (
-  req: NextApiRequest,
-  res: NextApiResponse
+const handler: NextApiHandler<ResponseType> = async (
+  req,
+  res
 ) => {
+  // GET은 SWR을 통해서 모든 상품들의 목록을 조회하는 과정이다.
   if (req.method === "GET") {
     const products = await client.product.findMany({
       include: {
         favs: true,
       },
     });
-    console.log(products);
+    // console.log(products);
     res.json({
       ok: true,
       products,
@@ -33,6 +34,7 @@ const handler: NextApiHandler = async (
         name,
         price: +price,
         description,
+        // 이미지는 나중에 수정이 필요함
         image: "xx",
         user: {
           connect: {

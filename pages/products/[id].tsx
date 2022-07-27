@@ -36,6 +36,8 @@ const ItemDetail: NextPage = () => {
   );
 
   const onFavClick = () => {
+    // SWR boundMutate를 활용해 캐시로 바로 UI에 업데이터 하고, Revalidate는 안하고
+    // 실제로 mutate를 DB에 주어서 ( toggleFav )로 값에 변화는 주어야 함.
     toggleFav({});
     if (!data) return;
     boundMutate(

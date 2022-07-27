@@ -7,6 +7,7 @@ import Button from "@components/button";
 import Input from "@components/Input";
 
 import { useForm } from "react-hook-form";
+import type { SubmitHandler } from "react-hook-form";
 import { ConversationList } from "twilio/lib/rest/conversations/v1/service/conversation";
 import { useRouter } from "next/router";
 
@@ -20,16 +21,20 @@ interface TokenForm {
 }
 
 interface EnterMutationResult {
-  ok: boolean;
+  ok?: boolean;
+  error?: string;
 }
 interface MutationResult {
-  ok: boolean;
+  ok?: boolean;
+  error?: string;
 }
 
 const Enter: NextPage = () => {
+  // 사용자가 로그인하기 위해서 email or phone을 쳐서 token을 발급받는 과정
   const [enter, { loading, data, error }] =
     useMutation<EnterMutationResult>("/api/users/enter");
 
+  // token을 검증하는 과정
   const [
     confirmToken,
     {
@@ -54,7 +59,8 @@ const Enter: NextPage = () => {
     reset();
     setMethod("phone");
   };
-  const onValid = (validForm: EnterForm) => {
+
+  const onValid: SubmitHandler<EnterForm> = (validForm) => {
     enter(validForm);
   };
 
@@ -64,6 +70,10 @@ const Enter: NextPage = () => {
   };
 
   const router = useRouter();
+
+  // 만약 tokenData를 검증하는 API로부터 검증하는 요청이 들어왔고
+  // ok가 true라면 기본페이지로 리다이렉팅 시킨다.
+  // 반대로 로그인하지 않은 사용자가 / 홈페이지로 들어올려교 하면 /enter로 보내는 작업이 수반되어야 할 것이다.
   useEffect(() => {
     if (tokenData?.ok) {
       router.push("/");

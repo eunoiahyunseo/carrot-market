@@ -16,6 +16,7 @@ const handler: NextApiHandler = async (
     session: { user },
   } = req;
 
+  // 이미 현재 사용자가 해당 상품에 좋아요를 한 기록이 있다면?
   const alreadyEx = await client.fav.findFirst({
     where: {
       productId: +id.toString(),

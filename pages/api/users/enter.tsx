@@ -21,20 +21,23 @@ interface reqDataType {
   phone?: string;
 }
 
-const handler: NextApiHandler = async (
-  req: NextApiRequest,
-  res: NextApiResponse<ResponseType>
+const handler: NextApiHandler<ResponseType> = async (
+  req,
+  res
 ) => {
   const { email, phone }: reqDataType = req.body;
   const user = phone ? { phone } : email ? { email } : null;
 
   if (!user) return res.status(400).json({ ok: false });
 
+  // 랜덤 6자리 토큰
   const payload = Math.floor(10000 + Math.random() * 90000) + "";
+
   const token = await client.token.create({
     data: {
       payload,
       user: {
+        // 만약 user에 해당하는 정보가 없다면 create에 해당하는 유저를 만든다.
         connectOrCreate: {
           where: {
             ...user,

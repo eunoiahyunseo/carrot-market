@@ -6,9 +6,9 @@ import withHandler, {
 import type { NextApiRequest, NextApiResponse, NextApiHandler } from "next";
 import { withApiSession } from "@libs/server/withSession";
 
-const handler: NextApiHandler = async (
-  req: NextApiRequest,
-  res: NextApiResponse
+const handler: NextApiHandler<ResponseType> = async (
+  req,
+  res
 ) => {
   const { token } = req.body;
   const foundToken = await client.token.findUnique({
@@ -27,6 +27,8 @@ const handler: NextApiHandler = async (
   };
 
   await req.session.save();
+
+  // user가 만든 token을 싹다 지워버린다.
   await client.token.deleteMany({
     where: {
       userId: foundToken.userId,

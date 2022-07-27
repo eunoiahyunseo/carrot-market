@@ -10,31 +10,72 @@ const handler: NextApiHandler = async (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
-  const {
-    body: { question },
-    session: { user },
-  } = req;
+  if (req.method === "POST") {
+    const {
+      body: { question, latitude, longitude },
+      session: { user },
+    } = req;
 
-  const post = await client.post.create({
-    data: {
-      question,
-      user: {
-        connect: {
-          id: user?.id,
+    const post = await client.post.create({
+      data: {
+        question,
+        latitude,
+        longitude,
+        user: {
+          connect: {
+            id: user?.id,
+          },
         },
       },
-    },
-  });
+    });
+    res.json({
+      ok: true,
+      post,
+    });
+  }
 
-  res.json({
-    ok: true,
-    post,
-  });
+  if (req.method === "GET") {
+    console.log(req.query);
+    const {
+      query: { latitude, longitude },
+    } = req;
+    const parsedLatitude = parseFloat(latitude.toString());
+    const parsedLongitude = parseFloat(longitude.toString());
+    // 질문에, 질문자의 정보가 필요함
+    const posts = await client.post.findMany({
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            avatar: true,
+          },
+        },
+        _count: {
+          select: {
+            wondering: true,
+            answers: true,
+          },
+        },
+      },
+      where: {
+        latitude: {
+          gte: parsedLatitude - 0.01,
+          lte: parsedLatitude + 0.01,
+        },
+        longitude: {
+          gte: parsedLongitude - 0.01,
+          lte: parsedLongitude + 0.01,
+        },
+      },
+    });
+    res.json({ ok: true, posts });
+  }
 };
 
 export default withApiSession(
   withHandler({
-    methods: ["POST"],
+    methods: ["GET", "POST"],
     handler,
   })
 );

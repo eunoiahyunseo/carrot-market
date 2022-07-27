@@ -7,6 +7,7 @@ import type {
 type method = "GET" | "POST" | "DELETE";
 
 type MethodType = method[];
+
 export interface ResponseType {
   ok: boolean;
   [key: string]: any;

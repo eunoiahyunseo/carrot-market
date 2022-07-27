@@ -18,10 +18,7 @@ const Layout = ({
   children,
 }: LayoutProps) => {
   const router = useRouter();
-  const onClick = useCallback(
-    () => router.back(),
-    [router]
-  );
+  const onClick = useCallback(() => router.back(), [router]);
   return (
     <div>
       <div
@@ -51,10 +48,7 @@ const Layout = ({
         {title ? <span>{title}</span> : null}
       </div>
       <div
-        className={cls(
-          "pt-16",
-          hasTabBar ? "pb-[6rem]" : ""
-        )}
+        className={cls("pt-16", hasTabBar ? "pb-[6rem]" : "")}
       >
         {children}
       </div>

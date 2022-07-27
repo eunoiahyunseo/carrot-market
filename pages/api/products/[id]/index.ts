@@ -28,12 +28,27 @@ const handler: NextApiHandler = async (
     },
   });
 
+  // 현재 상품의 이름을 공백을 기준으로 분리해
   const terms = product?.name.split(" ").map((word) => ({
     name: {
       contains: word,
     },
   }));
 
+  /**
+   * [
+   *  {
+   *    name: {
+   *      contains: "Galaxy"
+   *    }
+   *  },
+   *  {
+   *    name: {
+   *      contains: "S22"
+   *    }
+   *  }
+   * ]
+   */
   const relatedProducts = await client.product.findMany({
     where: {
       OR: terms,

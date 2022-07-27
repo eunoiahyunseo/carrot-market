@@ -28,7 +28,9 @@ const Upload: NextPage = () => {
 
   const [uploadProduct, { loading, data }] =
     useMutation<UploadProductMutation>("/api/products");
+
   const onValid = (data: UploadProductForm) => {
+    // 여러번 요청이 가는 것을 막기 위함.
     if (loading) return;
     uploadProduct(data);
   };
