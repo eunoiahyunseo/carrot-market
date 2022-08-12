@@ -4,11 +4,7 @@ interface ButtonProps {
   text: string;
   [key: string]: any;
 }
-const Button = ({
-  text,
-  large,
-  rest,
-}: ButtonProps) => {
+const Button = ({ text, large, rest }: ButtonProps) => {
   return (
     <button
       {...rest}

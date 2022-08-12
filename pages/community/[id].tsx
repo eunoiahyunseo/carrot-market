@@ -126,7 +126,7 @@ const CommunityPostDetail: NextPage = () => {
           </div>
           <div className="mt-3 flex w-full space-x-5 border-t border-b-[2px] py-2.5 px-4 text-gray-700">
             <button
-              onClick={onWonderClick}
+              onClick={() => onWonderClick()}
               className={cls(
                 "flex items-center space-x-2 text-sm",
                 data?.isWondering ? "text-teal-400" : ""

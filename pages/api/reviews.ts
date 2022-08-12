@@ -11,48 +11,35 @@ const handler: NextApiHandler = async (
   res: NextApiResponse
 ) => {
   const {
-    query: { id },
     session: { user },
-    body: { answer },
   } = req;
 
-  // const post = await client.post.findUnique({
-  //   where: {
-  //     id: +id.toString(),
-  //   },
-  //   select: {
-  //     id: true,
-  //   },
-  // });
+  await new Promise((resolve) => setTimeout(resolve, 5000));
 
-  const newAnswer = await client.answer.create({
-    data: {
-      user: {
-        connect: {
-          id: user?.id,
+  const reviews = await client.review.findMany({
+    where: {
+      createdForId: user?.id,
+    },
+    include: {
+      createdBy: {
+        select: {
+          id: true,
+          name: true,
+          avatar: true,
         },
       },
-      post: {
-        connect: {
-          // @ts-ignore
-          id: +id.toString(),
-        },
-      },
-      answer,
     },
   });
 
-  console.log(newAnswer);
-
   res.json({
     ok: true,
-    answer: newAnswer,
+    reviews,
   });
 };
 
 export default withApiSession(
   withHandler({
-    methods: ["GET", "POST"],
+    methods: ["GET"],
     handler,
   })
 );

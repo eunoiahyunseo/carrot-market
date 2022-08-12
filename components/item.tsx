@@ -4,7 +4,7 @@ interface ItemProps {
   title: string;
   id: number;
   price: number;
-  comments: number;
+  comments?: number;
   hearts: number;
 }
 
@@ -47,7 +47,7 @@ const Item = ({
             </svg>
             <span>{hearts}</span>
           </div>
-          <div className="flex items-center space-x-0.5 text-sm text-gray-600">
+          {/* <div className="flex items-center space-x-0.5 text-sm text-gray-600">
             <svg
               className="h-4 w-4"
               fill="none"
@@ -63,7 +63,7 @@ const Item = ({
               ></path>
             </svg>
             <span>{comments}</span>
-          </div>
+          </div> */}
         </div>
       </a>
     </Link>

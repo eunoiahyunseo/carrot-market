@@ -11,48 +11,35 @@ const handler: NextApiHandler = async (
   res: NextApiResponse
 ) => {
   const {
-    query: { id },
     session: { user },
-    body: { answer },
   } = req;
 
-  // const post = await client.post.findUnique({
-  //   where: {
-  //     id: +id.toString(),
-  //   },
-  //   select: {
-  //     id: true,
-  //   },
-  // });
-
-  const newAnswer = await client.answer.create({
-    data: {
-      user: {
-        connect: {
-          id: user?.id,
+  const purchases = await client.purchase.findMany({
+    where: {
+      userId: user?.id,
+    },
+    include: {
+      product: {
+        include: {
+          _count: {
+            select: {
+              favs: true,
+            },
+          },
         },
       },
-      post: {
-        connect: {
-          // @ts-ignore
-          id: +id.toString(),
-        },
-      },
-      answer,
     },
   });
 
-  console.log(newAnswer);
-
   res.json({
     ok: true,
-    answer: newAnswer,
+    purchases,
   });
 };
 
 export default withApiSession(
   withHandler({
-    methods: ["GET", "POST"],
+    methods: ["GET"],
     handler,
   })
 );

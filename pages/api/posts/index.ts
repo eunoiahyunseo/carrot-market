@@ -6,7 +6,7 @@ import withHandler, {
 import type { NextApiRequest, NextApiResponse, NextApiHandler } from "next";
 import { withApiSession } from "@libs/server/withSession";
 
-const handler: NextApiHandler = async (
+const handler = async (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
@@ -28,6 +28,9 @@ const handler: NextApiHandler = async (
         },
       },
     });
+
+    await res.revalidate("/community");
+
     res.json({
       ok: true,
       post,
@@ -39,7 +42,9 @@ const handler: NextApiHandler = async (
     const {
       query: { latitude, longitude },
     } = req;
+    // @ts-ignore
     const parsedLatitude = parseFloat(latitude.toString());
+    // @ts-ignore
     const parsedLongitude = parseFloat(longitude.toString());
     // 질문에, 질문자의 정보가 필요함
     const posts = await client.post.findMany({

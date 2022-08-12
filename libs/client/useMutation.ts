@@ -41,5 +41,6 @@ export default function useMutation<T = any>(
         }));
       });
   }
+
   return [mutation, state];
 }

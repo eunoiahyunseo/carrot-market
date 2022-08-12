@@ -17,6 +17,7 @@ const handler: NextApiHandler = async (
 
   const post = await client.post.findUnique({
     where: {
+      // @ts-ignore
       id: +id.toString(),
     },
     include: {
@@ -53,6 +54,7 @@ const handler: NextApiHandler = async (
   const isWondering = Boolean(
     await client.wondering.findFirst({
       where: {
+        // @ts-ignore
         postId: +id.toString(),
         userId: user?.id,
       },

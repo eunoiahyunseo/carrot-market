@@ -12,41 +12,29 @@ const handler: NextApiHandler = async (
 ) => {
   const {
     query: { id },
+    body,
     session: { user },
-    body: { answer },
   } = req;
 
-  // const post = await client.post.findUnique({
-  //   where: {
-  //     id: +id.toString(),
-  //   },
-  //   select: {
-  //     id: true,
-  //   },
-  // });
-
-  const newAnswer = await client.answer.create({
+  const message = await client.message.create({
     data: {
+      message: body.message,
+      stream: {
+        connect: {
+          id: +id.toString(),
+        },
+      },
       user: {
         connect: {
           id: user?.id,
         },
       },
-      post: {
-        connect: {
-          // @ts-ignore
-          id: +id.toString(),
-        },
-      },
-      answer,
     },
   });
 
-  console.log(newAnswer);
-
   res.json({
     ok: true,
-    answer: newAnswer,
+    message,
   });
 };
 

@@ -3,12 +3,14 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 import { cls } from "@libs/client/utils";
+import Head from "next/head";
 
 interface LayoutProps {
   title?: string;
   canGoBack?: boolean;
   hasTabBar?: boolean;
   children: React.ReactNode;
+  seoTitle?: string;
 }
 
 const Layout = ({
@@ -16,11 +18,15 @@ const Layout = ({
   canGoBack,
   hasTabBar,
   children,
+  seoTitle,
 }: LayoutProps) => {
   const router = useRouter();
   const onClick = useCallback(() => router.back(), [router]);
   return (
     <div>
+      <Head>
+        <title>{seoTitle} | Carrot Market</title>
+      </Head>
       <div
         className={cls(
           !canGoBack ? "justify-center" : "",
@@ -112,7 +118,7 @@ const Layout = ({
               <span>채팅</span>
             </a>
           </Link>
-          <Link href="/live">
+          <Link href="/streams">
             <a className="flex flex-col items-center space-y-2">
               <svg
                 className="h-6 w-6"

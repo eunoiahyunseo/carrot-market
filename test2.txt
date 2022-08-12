@@ -1,1 +1,1 @@
-rm: result2.txt: No such file or directory
+https://imagedelivery.net/_SMYXsMOOEvTYhYAAKoRCQ/<image_id>/<variant_name>

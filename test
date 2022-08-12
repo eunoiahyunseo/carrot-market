@@ -1,0 +1,6 @@
+
+
+
+
+
+---> Server ---> log() ---> auth() ---> controller() ---> DB

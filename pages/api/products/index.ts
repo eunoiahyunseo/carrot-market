@@ -14,7 +14,12 @@ const handler: NextApiHandler<ResponseType> = async (
   if (req.method === "GET") {
     const products = await client.product.findMany({
       include: {
-        favs: true,
+        _count: {
+          select: {
+            favs: true,
+          },
+        },
+        // favs: true,
       },
     });
     // console.log(products);
@@ -26,7 +31,7 @@ const handler: NextApiHandler<ResponseType> = async (
 
   if (req.method === "POST") {
     const {
-      body: { name, price, description },
+      body: { name, price, description, photoId },
       session: { user },
     } = req;
     const product = await client.product.create({
@@ -35,7 +40,7 @@ const handler: NextApiHandler<ResponseType> = async (
         price: +price,
         description,
         // 이미지는 나중에 수정이 필요함
-        image: "xx",
+        image: photoId,
         user: {
           connect: {
             id: user?.id,

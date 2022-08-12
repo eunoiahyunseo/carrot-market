@@ -6,10 +6,7 @@ import withHandler, {
 import type { NextApiRequest, NextApiResponse, NextApiHandler } from "next";
 import { withApiSession } from "@libs/server/withSession";
 
-const handler: NextApiHandler = async (
-  req: NextApiRequest,
-  res: NextApiResponse
-) => {
+const handler: NextApiHandler = async (req, res) => {
   // id -> string / string[] cause of dynamic routing
   const {
     query: { id },
@@ -23,6 +20,7 @@ const handler: NextApiHandler = async (
         select: {
           id: true,
           name: true,
+          avatar: true,
         },
       },
     },
