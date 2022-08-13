@@ -8,7 +8,7 @@ import Script from "next/script";
 function MyApp({ Component, pageProps }: AppProps) {
   const { pathname } = useRouter();
   const { user } = useUser(pathname);
-  console.log("APP IS RUNNING");
+  // console.log("APP IS RUNNING");
 
   return (
     <SWRConfig
