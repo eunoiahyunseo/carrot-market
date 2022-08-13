@@ -5,6 +5,7 @@ import withHandler, {
 // prettier-ignore
 import type { NextApiRequest, NextApiResponse, NextApiHandler } from "next";
 import { withApiSession } from "@libs/server/withSession";
+import { reqType } from "pages/api/posts/[id]/wonder";
 
 const handler: NextApiHandler = async (
   req: NextApiRequest,
@@ -14,7 +15,7 @@ const handler: NextApiHandler = async (
     query: { id },
     body,
     session: { user },
-  } = req;
+  } = req as reqType;
 
   const message = await client.message.create({
     data: {

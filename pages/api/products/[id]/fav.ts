@@ -5,7 +5,7 @@ import withHandler, {
 // prettier-ignore
 import type { NextApiRequest, NextApiResponse, NextApiHandler } from "next";
 import { withApiSession } from "@libs/server/withSession";
-import { User } from "@prisma/client";
+import { reqType } from "pages/api/posts/[id]/wonder";
 
 const handler: NextApiHandler = async (
   req: NextApiRequest,
@@ -14,7 +14,7 @@ const handler: NextApiHandler = async (
   const {
     query: { id },
     session: { user },
-  } = req;
+  } = req as reqType;
 
   // 이미 현재 사용자가 해당 상품에 좋아요를 한 기록이 있다면?
   const alreadyEx = await client.fav.findFirst({

@@ -5,13 +5,14 @@ import withHandler, {
 // prettier-ignore
 import type { NextApiRequest, NextApiResponse, NextApiHandler } from "next";
 import { withApiSession } from "@libs/server/withSession";
+import { reqType } from "pages/api/posts/[id]/wonder";
 
 const handler: NextApiHandler = async (req, res) => {
   // id -> string / string[] cause of dynamic routing
   const {
     query: { id },
     session: { user },
-  } = req;
+  } = req as reqType;
 
   const product = await client.product.findUnique({
     where: { id: +id.toString() },
