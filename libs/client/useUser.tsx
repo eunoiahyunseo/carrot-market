@@ -11,7 +11,11 @@ export default function useUser(pathname?: string) {
   const router = useRouter();
 
   const { data, error } = useSWR<ProfileResponse>(
-    pathname !== "/enter" ? "/api/users/me" : null
+    pathname !== "/enter"
+      ? typeof window === "undefined"
+        ? null
+        : "/api/users/me"
+      : null
   );
 
   useEffect(() => {
