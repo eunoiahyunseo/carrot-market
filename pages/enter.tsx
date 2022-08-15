@@ -98,7 +98,8 @@ const Enter: NextPage = () => {
   return (
     <div className="mt-16 px-4">
       <h3 className="text-center text-3xl font-bold">
-        Enter to Carrot
+        {/* Enter to Carrot */}
+        Welcome to my Carrot BBy
       </h3>
       <div className="mt-8">
         {data?.ok ? (
