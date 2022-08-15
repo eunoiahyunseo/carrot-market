@@ -21,7 +21,7 @@ interface ProductsResponse {
 }
 
 const Home = () => {
-  const { user, isLoading } = useUser();
+  // const { user, isLoading } = useUser();
   const { data } = useSWR<ProductsResponse>("/api/products");
 
   return (
@@ -38,6 +38,7 @@ const Home = () => {
                 title={products.name}
                 price={products.price}
                 hearts={products?._count?.favs || 0}
+                image={products?.image}
               />
             ))
           : "Loading..."}
@@ -84,9 +85,8 @@ const Page: NextPage<{ products: ProductWithCount[] }> = ({
 };
 
 export async function getServerSideProps() {
-  console.log("SSR");
   const products = await client.product.findMany({});
-
+  console.log("products checker >> ", products);
   return {
     props: {
       products: JSON.parse(JSON.stringify(products)),

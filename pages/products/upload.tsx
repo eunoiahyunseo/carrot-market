@@ -9,6 +9,7 @@ import useMutation from "@libs/client/useMutation";
 import { useEffect, useState } from "react";
 import { Product } from "@prisma/client";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 interface UploadProductForm {
   name: string;
@@ -37,6 +38,7 @@ const Upload: NextPage = () => {
   }: UploadProductForm) => {
     // 여러번 요청이 가는 것을 막기 위함.
     if (loading) return;
+
     if (photo && photo.length > 0) {
       const { uploadURL } = await (
         await fetch(`/api/files`)
@@ -65,8 +67,10 @@ const Upload: NextPage = () => {
   }, [data, router]);
 
   const [photoPreview, setPhotoPreview] = useState("");
+
   const photo = watch("photo");
   useEffect(() => {
+    // photo의 변경이 감지되었다면, previewImage를 준비한다.
     if (photo && photo.length > 0) {
       const file = photo[0];
       setPhotoPreview(URL.createObjectURL(file));
@@ -80,10 +84,12 @@ const Upload: NextPage = () => {
         onSubmit={handleSubmit(onValid)}
       >
         <div>
-          <div>
+          <div className="relative h-80">
             {photoPreview ? (
-              <img
+              <Image
+                alt="product preview"
                 src={photoPreview}
+                layout="fill"
                 className="h-46 flex aspect-video  w-full items-center justify-center  rounded-md border-gray-300 py-6 text-gray-600"
               />
             ) : (

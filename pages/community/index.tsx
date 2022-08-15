@@ -62,7 +62,7 @@ const Community: NextPage<PostsResponse> = ({ posts }) => {
                       d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                     ></path>
                   </svg>
-                  {/* <div>궁금해요 {post._count.wondering}</div> */}
+                  <div>궁금해요 {post._count.wondering}</div>
                 </div>
                 <div className="flex items-center space-x-2 text-sm">
                   <svg
@@ -106,11 +106,24 @@ const Community: NextPage<PostsResponse> = ({ posts }) => {
   );
 };
 
+// on-Demand Incremental getStaticProps
 export async function getStaticProps() {
-  console.log("BUILDING COMUNITY STATICALLY");
+  // console.log("BUILDING COMUNITY STATICALLY");
   const posts = await client.post.findMany({
     include: {
-      user: true,
+      user: {
+        select: {
+          id: true,
+          name: true,
+          avatar: true,
+        },
+      },
+      _count: {
+        select: {
+          wondering: true,
+          answers: true,
+        },
+      },
     },
   });
   return {

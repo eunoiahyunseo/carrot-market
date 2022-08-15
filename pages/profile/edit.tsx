@@ -6,6 +6,9 @@ import useUser from "@libs/client/useUser";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import useMutation from "@libs/client/useMutation";
+import { userUrl } from "@libs/client/utils";
+import { useRouter } from "next/router";
+import Image from "next/image";
 
 interface EditProfileForm {
   email?: string;
@@ -22,6 +25,8 @@ interface EditProfileResponse {
 
 const EditProfile: NextPage = () => {
   const { user } = useUser();
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -31,14 +36,12 @@ const EditProfile: NextPage = () => {
     watch,
   } = useForm<EditProfileForm>();
 
+  // 초기 값들을 설정해 주는 작업
   useEffect(() => {
     if (user?.name) setValue("name", user.name);
     if (user?.email) setValue("email", user.email);
     if (user?.phone) setValue("phone", user.phone);
-    if (user?.avatar)
-      setAavatarPreview(
-        `https://imagedelivery.net/_SMYXsMOOEvTYhYAAKoRCQ/${user.avatar}/avatar`
-      );
+    if (user?.avatar) setAavatarPreview(userUrl(user.avatar));
   }, [user, setValue]);
 
   const [editProfile, { data, loading }] =
@@ -62,7 +65,10 @@ const EditProfile: NextPage = () => {
       const { uploadURL } = await (
         await fetch(`/api/files`)
       ).json();
+
       const form = new FormData();
+
+      // cloudflare에 userid을 이름으로 하여 저장한다.
       form.append("file", avatar[0], user?.id + "");
       const {
         result: { id },
@@ -73,7 +79,6 @@ const EditProfile: NextPage = () => {
         })
       ).json();
       // upload file to CF url
-
       editProfile({ email, phone, name, avatarId: id });
     } else {
       editProfile({ email, phone, name });
@@ -84,7 +89,11 @@ const EditProfile: NextPage = () => {
     if (data && !data.ok && data.error) {
       setError("formErrors", { message: data.error });
     }
-  }, [data, setError]);
+
+    if (data && data.ok && !data.error) {
+      router.push(`/profile`);
+    }
+  }, [data, setError, router]);
 
   const [avatarPreview, setAavatarPreview] = useState("");
   const avatar = watch("avatar");
@@ -104,10 +113,14 @@ const EditProfile: NextPage = () => {
       >
         <div className="flex items-center space-x-3">
           {avatarPreview ? (
-            <img
-              src={avatarPreview}
-              className="h-14 w-14 rounded-full bg-slate-500"
-            />
+            <div className="relative aspect-square w-16">
+              <Image
+                src={avatarPreview}
+                className="h-14 w-14 rounded-full bg-slate-500 object-cover"
+                alt="avatar preview"
+                layout="fill"
+              />
+            </div>
           ) : (
             <div className="h-14 w-14 rounded-full bg-slate-500" />
           )}

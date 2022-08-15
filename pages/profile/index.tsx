@@ -4,7 +4,7 @@ import Link from "next/link";
 import useUser from "@libs/client/useUser";
 import { Review, User } from "@prisma/client";
 import useSWR, { SWRConfig } from "swr";
-import { cls } from "@libs/client/utils";
+import { cls, userUrl } from "@libs/client/utils";
 // import { withSsrSession } from "@libs/server/withSession";
 // import client from "@libs/client/client";
 import { Suspense } from "react";
@@ -26,7 +26,20 @@ const Reviews = () => {
       {data?.reviews.map((review) => (
         <div key={review.id} className="mt-12">
           <div className="flex items-center space-x-4">
-            <div className="h-12 w-12 rounded-full bg-slate-400" />
+            {review?.createdBy?.avatar ? (
+              <div className="relative aspect-square w-12">
+                <Image
+                  alt="createdBy previews"
+                  layout="fill"
+                  className="rounded-full object-cover"
+                  src={
+                    userUrl(review?.createdBy?.avatar) as string
+                  }
+                />
+              </div>
+            ) : (
+              <div className="h-12 w-12 rounded-full bg-slate-400" />
+            )}
             <div>
               <h4 className="text-sm font-bold text-gray-800">
                 {review?.createdBy?.name}

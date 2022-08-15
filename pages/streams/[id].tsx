@@ -72,12 +72,6 @@ const StreamDetail: NextPage = () => {
     sendMessage(form);
   };
 
-  // useEffect(() => {
-  //   if (sendMessageData && sendMessageData.ok) {
-  //     // 메세지를 보내고 페이지를 refetch시키는 방법.
-  //   }
-  // }, [mutate, sendMessageData]);
-
   return (
     <Layout canGoBack>
       <div className="space-y-4 px-4 py-2 scrollbar-hide">
@@ -121,6 +115,7 @@ const StreamDetail: NextPage = () => {
               key={message.id}
               message={message.message}
               reversed={message.user.id === user?.id}
+              avatarUrl={message.user.avatar}
             />
           ))}
 

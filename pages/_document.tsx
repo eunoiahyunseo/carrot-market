@@ -19,7 +19,7 @@ import { Head, Html, Main, NextScript } from "next/document";
 // }
 
 export default function Document() {
-  console.log("DOCUMENT IS RUNNING");
+  // console.log("DOCUMENT IS RUNNING");
   return (
     <Html lang="ko">
       <Head>

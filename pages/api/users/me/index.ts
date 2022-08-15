@@ -35,6 +35,7 @@ const handler: NextApiHandler = async (
 
     // 기존의 email값을 바꾸려는 경우만
     if (email && email !== currentUser?.email) {
+      // 이메일을 변경하는 경우인데, 이미 어떤 사용자가 해당 이메일을 사용하는 경우라면
       const alreadyExists = Boolean(
         await client.user.findUnique({
           where: {
@@ -60,6 +61,7 @@ const handler: NextApiHandler = async (
         },
       });
     }
+
     if (phone && phone !== currentUser?.phone) {
       const alreadyExists = Boolean(
         await client.user.findUnique({
@@ -87,6 +89,7 @@ const handler: NextApiHandler = async (
       });
     }
 
+    // 이름은 중복 가능하다.
     if (name) {
       await client.user.update({
         where: {

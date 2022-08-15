@@ -1,7 +1,4 @@
-import client from "@libs/client/client";
-import withHandler, {
-  ResponseType,
-} from "@libs/server/withHandler";
+import withHandler from "@libs/server/withHandler";
 // prettier-ignore
 import type { NextApiRequest, NextApiResponse, NextApiHandler } from "next";
 import { withApiSession } from "@libs/server/withSession";
@@ -10,6 +7,8 @@ const handler: NextApiHandler = async (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
+  // https://developers.cloudflare.com/images/cloudflare-images/upload-images/direct-creator-upload/
+  // Direct Creator Upload
   const response = await (
     await fetch(
       `https://api.cloudflare.com/client/v4/accounts/${process.env.CLOUDFARE_ACCOUNT_ID}/images/v2/direct_upload`,
@@ -22,6 +21,8 @@ const handler: NextApiHandler = async (
       }
     )
   ).json();
+
+  console.log("image response >> ", response);
 
   res.json({
     ok: true,

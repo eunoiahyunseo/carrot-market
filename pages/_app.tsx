@@ -7,7 +7,7 @@ import Script from "next/script";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const { pathname } = useRouter();
-  const { user } = useUser(pathname);
+  // const { user } = useUser(pathname);
   // console.log("APP IS RUNNING");
 
   return (
@@ -20,7 +20,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <div className="mx-auto w-full max-w-xl">
         <Component {...pageProps} />
       </div>
-      <Script
+      {/* <Script
         src="https://developers.kakao.com/sdk/js/kakao.js"
         strategy="lazyOnload"
       />
@@ -38,7 +38,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             });
           };
         }}
-      />
+      /> */}
     </SWRConfig>
   );
 }

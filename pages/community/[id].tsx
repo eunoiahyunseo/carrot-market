@@ -1,4 +1,9 @@
-import type { NextPage } from "next";
+import type {
+  GetServerSideProps,
+  GetStaticProps,
+  NextPage,
+  NextPageContext,
+} from "next";
 import Layout from "@components/layout";
 import TextArea from "@components/textArea";
 import Button from "@components/button";
@@ -7,9 +12,13 @@ import useSWR from "swr";
 import { Answer, Post, User } from "@prisma/client";
 import Link from "next/link";
 import useMutation from "@libs/client/useMutation";
-import { cls } from "@libs/client/utils";
+import { cls, userUrl } from "@libs/client/utils";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
+import client from "@libs/client/client";
+import { withSsrSession } from "@libs/server/withSession";
+import { SWRConfig } from "swr";
+import Image from "next/image";
 
 interface AnswerWithUser extends Answer {
   user: User;
@@ -25,7 +34,7 @@ interface PostWithUser extends Post {
 }
 
 interface CommunityPostResponse {
-  ok: boolean;
+  ok?: boolean;
   post: PostWithUser;
   isWondering: boolean;
 }
@@ -102,7 +111,18 @@ const CommunityPostDetail: NextPage = () => {
           동네질문
         </span>
         <div className="mb-3 flex  items-center space-x-3 border-b py-2 px-3">
-          <div className="h-10 w-10 rounded-full bg-slate-300" />
+          {data?.post?.user?.avatar ? (
+            <div className="relative aspect-square w-10">
+              <Image
+                alt="community chat profile preview"
+                layout="fill"
+                src={userUrl(data?.post?.user?.avatar) as string}
+                className="rounded-full object-contain"
+              />
+            </div>
+          ) : (
+            <div className="h-8 w-8 rounded-full bg-slate-200" />
+          )}
           <div>
             <p className="text-sm font-medium text-gray-700">
               {data?.post?.user?.name}
@@ -174,7 +194,18 @@ const CommunityPostDetail: NextPage = () => {
               key={answer?.id}
               className="flex items-start space-x-3"
             >
-              <div className="h-8 w-8 rounded-full bg-slate-200" />
+              {answer.user?.avatar ? (
+                <div className="relative aspect-square w-10">
+                  <Image
+                    alt="community chat profile preview"
+                    layout="fill"
+                    src={userUrl(answer.user?.avatar) as string}
+                    className="rounded-full object-contain"
+                  />
+                </div>
+              ) : (
+                <div className="h-8 w-8 rounded-full bg-slate-300" />
+              )}
               <div className="">
                 <span className="block text-sm font-medium text-gray-700">
                   {answer?.user?.name}
@@ -207,4 +238,89 @@ const CommunityPostDetail: NextPage = () => {
   );
 };
 
-export default CommunityPostDetail;
+const Page: NextPage<CommunityPostResponse> = ({
+  post,
+  isWondering,
+}) => {
+  const router = useRouter();
+  return (
+    <SWRConfig
+      value={{
+        fallback: {
+          [`/api/posts/${router.query.id}`]: {
+            ok: true,
+            post,
+            isWondering,
+          },
+        },
+      }}
+    >
+      <CommunityPostDetail />
+    </SWRConfig>
+  );
+};
+
+export const getServerSideProps = withSsrSession(
+  async function ({ req, params }: any) {
+    if (!params?.id) {
+      return {
+        props: {},
+      };
+    }
+
+    const post = await client.post.findUnique({
+      where: {
+        id: +params.id.toString(),
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            avatar: true,
+          },
+        },
+        answers: {
+          select: {
+            id: true,
+            answer: true,
+            user: {
+              select: {
+                id: true,
+                name: true,
+                avatar: true,
+              },
+            },
+          },
+        },
+        _count: {
+          select: {
+            answers: true,
+            wondering: true,
+          },
+        },
+      },
+    });
+
+    const isWondering = Boolean(
+      await client.wondering.findFirst({
+        where: {
+          postId: +params?.id.toString(),
+          userId: req?.session.user?.id,
+        },
+        select: {
+          id: true,
+        },
+      })
+    );
+
+    return {
+      props: {
+        post: JSON.parse(JSON.stringify(post)),
+        isWondering: JSON.parse(JSON.stringify(isWondering)),
+      },
+    };
+  }
+);
+
+export default Page;

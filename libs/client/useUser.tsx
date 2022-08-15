@@ -8,7 +8,7 @@ interface ProfileResponse {
   profile: User;
 }
 export default function useUser(pathname?: string) {
-  const router = useRouter();
+  // const router = useRouter();
 
   const { data, error } = useSWR<ProfileResponse>(
     pathname !== "/enter"
@@ -18,11 +18,11 @@ export default function useUser(pathname?: string) {
       : null
   );
 
-  useEffect(() => {
-    if (data && !data.ok) {
-      router.replace("/enter");
-    }
-  }, [data, router]);
+  // useEffect(() => {
+  //   if (data && !data.ok) {
+  //     router.replace("/enter");
+  //   }
+  // }, [data, router]);
 
   return { user: data?.profile, isLoading: !data && !error };
 }

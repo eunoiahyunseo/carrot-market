@@ -5,10 +5,15 @@ import FloatingButton from "@components/FloatingButton";
 import { Stream } from "@prisma/client";
 import useSWR from "swr";
 import Image from "next/image";
+import { streamThumbnail } from "@libs/client/utils";
+
+interface StreamWithUid extends Stream {
+  uid: string;
+}
 
 interface StreamsResponse {
   ok: boolean;
-  streams: Stream[];
+  streams: StreamWithUid[];
 }
 
 const Streams: NextPage = () => {
@@ -22,16 +27,18 @@ const Streams: NextPage = () => {
         {data?.streams.map((stream) => (
           <Link key={stream.id} href={`/streams/${stream.id}`}>
             <a>
+              <h3 className="mt-6 mb-6 text-xl font-bold text-gray-700">
+                {stream?.name}
+              </h3>
               <div className="relative aspect-video w-full overflow-hidden rounded-md bg-slate-300 object-cover">
                 <Image
                   layout="fill"
                   alt="stream sumbnail"
-                  src={`https://videodelivery.net/${stream?.cloudflareId}/thumbnails/thumbnail.jpg?height=320`}
+                  src={streamThumbnail(stream?.uid)}
+                  priority={true}
                 />
               </div>
-              <h3 className="mt-2 text-lg font-medium text-gray-700">
-                {stream?.name}
-              </h3>
+              <div className="h-10 w-full border-b-2" />
             </a>
           </Link>
         ))}
