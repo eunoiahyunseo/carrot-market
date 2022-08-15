@@ -24,7 +24,7 @@ const Streams: NextPage = () => {
   return (
     <Layout title="라이브" hasTabBar>
       <div className="space-y-4 divide-y-2">
-        {data?.streams.map((stream) => (
+        {data?.streams?.map((stream) => (
           <Link key={stream.id} href={`/streams/${stream.id}`}>
             <a>
               <h3 className="mt-6 mb-6 text-xl font-bold text-gray-700">
